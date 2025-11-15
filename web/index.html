@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EdgeViewer Web</title>
+</head>
+<body>
+    <h2>Processed Frame (Static)</h2>
+    
+    <iframe id="live-stream-iframe" 
+    src="http://localhost:8080/frame.jpg" 
+    width="640" height="480" 
+    frameborder="0" 
+    scrolling="no"
+    style="border: 1px solid black;">
+    </iframe>
+    <div id="frame-stats"></div>
+
+    <script src="dist/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es6",       /* Compile to modern, browser-compatible JavaScript */
+    "module": "es6",       /* Use browser-compatible modules (fixes 'exports' error) */
+    "outDir": "./dist",    /* Put compiled JS in a 'dist' folder */
+    "rootDir": "./src",    /* Find TypeScript files in the 'src' folder */
+    "strict": true         /* Enable strict type-checking */
+  }
+}

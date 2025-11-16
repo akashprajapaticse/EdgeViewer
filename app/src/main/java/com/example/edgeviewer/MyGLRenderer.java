@@ -53,14 +53,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             1.0f,  1.0f   // Top Right
     };
 
-    // Texture coordinates (UV)
-    // Flip the Y-axis (0.0f -> 1.0f, 1.0f -> 0.0f) because
-    // OpenCV Mats and OpenGL textures have opposite Y directions.
     private static final float[] texCoords = {
-            1.0f, 0.0f,  // For Bottom Left vertex
-            1.0f, 1.0f,  // For Bottom Right vertex
-            0.0f, 0.0f,  // For Top Left vertex
-            0.0f, 1.0f   // For Top Right vertex
+            1.0f, 1.0f,   // Bottom Left
+            1.0f, 0.0f,   // Bottom Right
+            0.0f, 1.0f,   // Top Left
+            0.0f, 0.0f    // Top Right
     };
 
     // --- Frame Data (to pass from C++ to the renderer) ---

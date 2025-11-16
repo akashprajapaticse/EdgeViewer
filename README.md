@@ -17,8 +17,10 @@ This project implements a high-performance, real-time computer vision pipeline o
 | **OpenCV Usage** | Apply Canny Edge Detection or Grayscale Filter (C++) | ✅ Done | 20% |
 | **OpenGL Rendering** | Render Processed Image as a Texture (OpenGL ES 2.0+) | ✅ Done | 20% |
 | **TypeScript Web Viewer** | Minimal Web Page & DOM Updates | ✅ Done | 20% |
-| **Project Structure & History** | Modular Structure & Reflective Commit History | ✅ Done | 15% |
-| **Bonus** | HTTP Endpoint (Live Server via NanoHTTPD) | 🌟 **Completed** | (Optional) |
+| **Project Structure & History**| Modular Structure & Reflective Commit History | ✅ Done | 15% |
+| **Bonus: Toggle Button** | Button to toggle between Raw and Edge-detected output | 🌟 **Completed** | (Optional) |
+| **Bonus: FPS Counter** | Log frame processing time (FPS) | 🌟 **Completed** | (Optional) |
+| **Bonus: HTTP Endpoint** | Live Server via NanoHTTPD for web viewer | 🌟 **Completed** | (Optional) |
 
 ---
 
@@ -27,12 +29,12 @@ This project implements a high-performance, real-time computer vision pipeline o
 #### A. Data Pipeline (JNI and OpenGL)
 
 1.  **Frame Acquisition $\to$ JNI (25% Weight):** The Java layer uses the CameraX `ImageAnalysis` use case to capture frames. The `analyze()` method extracts the frame data, creates an OpenCV `Mat`, and passes its **memory address** to the native `processFrame()` function using **JNI**.
-2.  **C++ Processing (20% Weight):** The native `processFrame()` function receives the frame as a `cv::Mat&` reference. [cite_start]It uses OpenCV to apply **Canny Edge Detection**, modifying the image data **in place**[cite: 27, 48].
-3.  [cite_start]**Rendering (20% Weight):** The processed data is sent to the `MyGLRenderer`, uploaded as a texture using `GLES20.glTexImage2D`, and displayed on the `GLSurfaceView`[cite: 30, 31].
+2.  **C++ Processing (20% Weight):** The native `processFrame()` function receives the frame as a `cv::Mat&` reference. [cite_start]It uses OpenCV to apply **Canny Edge Detection**, modifying the image data **in place**[cite: 27, 48]. A JNI-controlled boolean flag (`g_canny_enabled`) allows the C++ code to bypass this step, sending the raw frame for the toggle feature.
+3.  [cite_start]**Rendering (20% Weight):** The processed data (either Canny or Raw) is sent to the `MyGLRenderer`, uploaded as a texture using `GLES20.glTexImage2D`, and displayed on the `GLSurfaceView`[cite: 30, 31].
 
 #### B. TypeScript Connection (Bonus)
 
-* **Logic:** The Web Viewer, built with **TypeScript**, demonstrates comfort with project setup and DOM updates. It implements the optional HTTP Endpoint by hosting a server on the Android app, which serves the latest processed frame as a JPEG. [cite_start]The TypeScript client fetches this URL continually, creating a live stream illusion.
+* **Logic:** The Web Viewer, built with **TypeScript**, demonstrates comfort with project setup and DOM updates. [cite_start]It implements the optional HTTP Endpoint by hosting a server on the Android app, which serves the latest processed frame as a JPEG[cite: 39]. The TypeScript client fetches this URL continually, creating a live stream illusion.
 
 ---
 
@@ -40,8 +42,9 @@ This project implements a high-performance, real-time computer vision pipeline o
 
 | Component | Description | Screenshot |
 | :--- | :--- | :--- |
-| **Android App** | Real-time Canny Edge Detection displayed in the correct orientation via OpenGL ES. |  |
-| **Web Viewer** | Live status updates confirming C++ server activity via the forwarded port. |  |
+| **Android App (Canny)** | Real-time Canny Edge Detection displayed via OpenGL ES. | ![Canny Edge Detection](images/canny.png) |
+| **Android App (Raw)** | Raw camera feed, demonstrating the "Toggle Button" bonus feature. | ![Raw Camera Feed](images/raw.png) |
+| **Web Viewer (Bonus)** | Live status updates confirming C++ server activity via the forwarded port. | ![Live Web Viewer](images/webView.png) |
 
 ---
 
@@ -49,7 +52,7 @@ This project implements a high-performance, real-time computer vision pipeline o
 
 1.  **NDK/Dependencies:** Ensure Android API 36, NDK, and CMake are installed.
 2.  **Web Viewer Setup:** Navigate to the `web/` folder and run `npm install` and `npx tsc`.
-3.  **Network Setup (Crucial):** Run `adb reverse tcp:8080 tcp:8080` to establish the network bridge to the emulator.
+3.  **Network Setup (Crucial):** Run `adb reverse tcp:8000 tcp:8000` to establish the network bridge to the emulator.
 
 ---
 
